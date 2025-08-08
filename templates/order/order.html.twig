@@ -1,0 +1,73 @@
+{% extends 'base.html.twig' %}
+
+
+
+{% block title %}Order Ok Message{% endblock %}
+
+{% block body %}
+<div class="container my-5">
+
+    <h1>Orders :</h1>
+    {{ include('layouts/_flash_message.html.twig') }}
+
+    {% for order in orders %}
+
+    <h2 class="text-bg-primary p-1 mt-5">Commande N°{{ order.id }}</h2>
+        {% if order.isCompleted == true %}
+            <h4 class="text-danger">Commande livrée : {{ order.createAt | date }} </h4>
+        {% else %}
+            <h6 class="text-success">Commande non livrée : {{ order.createAt | date }} </h6>
+        {% endif %}
+    
+    <h5>Informations du client</h5>
+        <table class="table table-bordered">
+            <tbody>
+                <tr>
+                    <th>Nom</th>
+                    <th>Prénom</th>
+                    <th>Téléphone</th>
+                    <th>Adresee</th>
+                    <th>Ville</th>
+                </tr>
+                    <tr>
+                        <td>{{ order.firstName }}</td>
+                        <td>{{ order.lastName }}</td>
+                        <td>{{ order.phone }}</td>
+                        <td>{{ order.adresse }}</td>
+                        <td>{{ order.city.name }}</td>
+                    </tr>
+            </tbody>
+        </table>
+        <h5>Corps de la commande</h5>
+        <table class="table table-striped">
+            <tr>
+                <th>Image du Produit</th>
+                <th>Nom du Produit</th>
+                <th>Description</th>
+                <th>Prix Unitaire</th>
+                <th>Quantité</th>
+                <th>Prix total</th>
+            </tr>
+            {% for product in order.orderProducts %}
+                <tr>
+                    <td> <img style="width: 80px" src="{{ asset('uploads/images/' ~ product.product.image ) }}" /> </td>
+                    <td>{{ product.product.name }}</td>
+                    <td>{{ product.product.price }} $</td>
+                    <td>{{ product.product.description | slice(0,200) }}</td>
+                    <td>{{ product.qte }}</td>
+                    <td>{{ product.product.price * product.qte }} $</td>
+                </tr>
+            {% endfor %}
+        </table>
+                <span class="">Frais de livraison : {{ order.city.shippingCost }} </span>
+                <h5 class="">Total à payer : {{ order.totalPrice }} $ </h5>
+
+                <a href="{{ path('app_bill', {'id': order.id}) }}" class="btn btn-outline-success col-2 m-lg-1">Imprimmer la facture</a>
+                {% if order.isCompleted != true %}
+                    <a href="{{ path('app_order_is_completed_update', {'id': order.id}) }}" class="btn btn-outline-primary col-2 m-lg-1">Marquer comme livrée</a>
+                {% endif %}
+                    <a onclick="return confirm('voulez-vous vraiment supprimé cette commande ?')" href="{{ path('app_order_remove', {'id': order.id}) }}" class="btn btn-outline-danger col-2 m-lg-1">Supprimer la commande</a>
+    {% endfor %}
+
+</div>
+{% endblock %}

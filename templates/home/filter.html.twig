@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+            {{ parent() }}
+        <link href="{{ asset('styles/products.css') }}" type="text/css" rel="stylesheet" />
+{% endblock %}
+
+{% block title %}Product related to subCategory : {{ subcategory }} {% endblock %}
+
+{% block body %}
+<div class="container my-5 filterd-products">
+    <h1 class="mb-4">Product Listing</h1>
+    <div class="row">
+        {% for product in products %}
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <div class="img-container">
+                        <a href="{{ path('home_product_show', { 'id': product.id }) }}">
+                        <img src="{{ '/uploads/images/' ~ product.image }}" class="card-img-top img-fluid" alt="{{ product.name }}">
+                        </a>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">{{ product.name }}</h5>
+                        <p class="card-text">{{ product.price | number_format(2, '.', ',') }} €</p>
+                    </div>
+                    <div class="card-footer text-end">
+                        <a href="{{ path('home_product_show', { 'id': product.id }) }}" class="btn btn-info">View Details</a>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <div class="col-12">
+                <div class="alert alert-info" role="alert">
+                    No products found.
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+    {{ include('layouts/_footer.html.twig') }}
+{% endblock %}

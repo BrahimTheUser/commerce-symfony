@@ -1,0 +1,119 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello OrderController!{% endblock %}
+
+{% block body %}
+
+<div class="container home-products my-5">
+    <div class="row">
+        <div class="col-8">
+            <h1>Checkout</h1>
+
+            {{ form_start(form) }}
+                <div class="row mt-3">
+                    <div class="col-3">
+                        Firstname:
+                    </div>
+                    <div class="col-9">
+                        {{ form_widget(form.firstName) }}
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-3">
+                        LastName:
+                    </div>
+                    <div class="col-9">
+                        {{ form_widget(form.lastName) }}
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-3">
+                        Email:
+                    </div>
+                    <div class="col-9">
+                        {{ form_widget(form.email) }}
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-3">
+                        Phone:
+                    </div>
+                    <div class="col-9">
+                        {{ form_widget(form.phone) }}
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-3">
+                        Adresse:
+                    </div>
+                    <div class="col-9">
+                        {{ form_widget(form.adresse) }}
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-3">
+                        City:
+                    </div>
+                    <div class="col-9">
+                        {{ form_widget(form.city) }}
+                    </div>
+                </div>
+                <div class="flex align-items-center row mt-3">
+                    <div class="col-3">
+                        Pay On Delivery ?
+                    </div>
+                    <div class="col-9">
+                        {{ form_widget(form.payOnDelivery,{'attr': {'class': 'mt-0'} }) }}
+                    </div>
+                </div>
+                {{ form_rest(form) }}
+                <input type="submit" value="Continuer" class="btn btn-primary mt-3" />
+            {{ form_end(form) }}
+
+        </div>
+
+        <div class="col-4 mt-5">
+            <h4>Montant à payer : <span id="card-price"> {{ total }} </span>$ </h4> <br /> <br /> <br />
+            <h4>Frais de Livraison : </h4>
+            <h2> <span id="shippingCost"></span> $</h2>
+            <h2 class="mt-5"> Total Price : <span class="global-total-price"></span> $</h2>
+        </div>
+
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+<script>
+    $(document).ready(function () {
+        const citySelector = $('#order_city')
+        const cityValue = citySelector.val()
+        const url = `http://commerce.loc/city/${cityValue}/shipping/cost`
+        function ajaxRequest(url) {
+            $.ajax({
+                url: url,
+                method: 'GET',
+                success: function (response) {
+                    const newReponse = JSON.parse(response);
+                    if(parseInt(newReponse.status) === 200) {
+                        console.log(newReponse.shippingCost);
+                        $('#shippingCost').text(newReponse.shippingCost)
+                        const globalTotalPrice = parseInt($('#card-price').text()) +  parseInt($('#shippingCost').text())
+                        console.log($('#card-price').text(), 'testing total');
+                        $('.global-total-price').text(globalTotalPrice)
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error:', error);
+                }
+            })
+        }
+        ajaxRequest(url, 'GET');
+        citySelector.change(function () {
+            //cityValue = $(this).val()
+            const url = `http://commerce.loc/city/${$(this).val()}/shipping/cost`
+            console.log(url)
+            ajaxRequest(url)
+        });
+    });
+</script>
+
+{% endblock %}

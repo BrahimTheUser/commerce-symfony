@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+<div class="container">
+    <div class="from">
+        <h2>Modifier une catégorie</h2>
+        {{ include('layouts/_flash_message.html.twig') }}
+        {{ form_start(form) }}
+            {{ form_row(form.name,{'attr': {'class': 'form form-control', 'autofocus': true} }) }}
+            <input type="submit" value="Modifier" class="btn btn-primary" />
+        {{ form_end(form) }}
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,9 @@
+{{ form_start(form) }}
+    {{ form_row(form.name,{'attr': {'class': 'form form-control mb-3 ', 'autofocus': true} }) }}
+    <div class="mb-3">
+        {{ form_label(form.category) }}
+        {{ form_widget(form.category) }}
+        {{ form_errors(form.category) }}
+    </div>
+    <button class="btn btn-primary">{{ button_label|default('Save') }}</button>
+{{ form_end(form) }}

@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}User List{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    <h1>User List</h1>
+    <table class="table table-bordered table-hover" id="userTable">
+        <thead class="thead-dark">
+            <tr>
+                <th>ID</th>
+                <th>Email</th>
+                <th>Nom</th>
+                <th>Prénom</th>
+                <th>Role</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+                <tr>
+                    <td>{{ user.id }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.firstName }}</td>
+                    <td>{{ user.lastName }}</td>
+                    <td>
+                        {% if 'ROLE_ADMIN' in user.roles %}
+                            Administrateur
+                        {% elseif 'ROLE_EDITOR' in user.roles %}
+                            Éditeur
+                        {% else %}
+                            Client
+                        {% endif %}
+                        {# {% for role in user.roles %}
+                            {{ role ~ ' ' }}
+                        {% endfor %} #}
+                    </td>
+                    <td>
+                        <a href="{{ path('app_user_to_editor', { 'id': user.id }) }}" class="btn btn-primary btn-sm" onclick="return confirm('Are you sure you want to add ROLE_EDITOR to this user?');">Ajouter comme éditor</a>
+                        <a href="{{ path('app_user_delete', { 'id': user.id }) }}" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this user?');">Supprimer</a>
+                        {# <a href="{{ path('app_user_edit', { 'id': user.id }) }}" class="btn btn-primary btn-sm">Modify</a> #}
+                        {# <a href="{{ path('user_edit', { 'id': user.id }) }}" class="btn btn-primary btn-sm">Modify</a>
+                        <a href="{{ path('user_delete', { 'id': user.id }) }}" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this user?');">Delete</a> #}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

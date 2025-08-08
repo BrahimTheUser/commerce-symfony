@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Product {{ product.name }} {% endblock %}
+
+{% block stylesheets %}
+            {{ parent() }}
+        <link href="{{ asset('styles/products.css') }}" type="text/css" rel="stylesheet" />
+{% endblock %}
+
+{% block body %}
+    <h1 class="container mt-5">Product : {{ product.name }}</h1>
+<div class="container mt-5 product-details">
+                    <img src="{{ '/uploads/images/' ~ product.image }}" class="card-img-top w-25 " alt="{{ product.name }}">
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ product.id }}</td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td>{{ product.name }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ product.description }}</td>
+            </tr>
+            <tr>
+                <th>Price</th>
+                <td>{{ product.price }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+            <a href="{{ path('app_cart_new', { 'id': product.id }) }}" class="btn btn-success">Add to Cart</a>
+<!-- partials/_latest_products.html.twig -->
+<h1 class="mt-5">Related Products</h1>
+<div class="row mt-5">
+        {% for product in latest %}
+            <div class="col-md-3 mb-3">
+                <div class="card h-100">
+                    <div class="img-container">
+                        <a href="{{ path('home_product_show', { 'id': product.id }) }}">
+                        <img src="{{ '/uploads/images/' ~ product.image }}" class="card-img-top img-fluid" alt="{{ product.name }}">
+                        </a>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">{{ product.name }}</h5>
+                        <p class="card-text">{{ product.price | number_format(2, '.', ',') }} €</p>
+                    </div>
+                    <div class="card-footer text-end">
+                        <a href="{{ path('home_product_show', { 'id': product.id }) }}" class="btn btn-info">View Details</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+</div>
+    {{ include('layouts/_footer.html.twig') }}
+{% endblock %}

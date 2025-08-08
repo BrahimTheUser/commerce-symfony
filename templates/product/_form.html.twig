@@ -1,0 +1,31 @@
+{{ form_start(form) }}
+    <div class="mb-3">
+        {{ form_row(form.name) }}
+    </div>
+
+    <div class="mb-3">
+        {{ form_row(form.description) }}
+    </div>
+
+    <div class="mb-3">
+        {{ form_label(form.price) }}
+        {{ form_widget(form.price) }}
+        {{ form_errors(form.price) }}
+    </div>
+
+    {% if form.stock is defined %}
+        <div class="mb-3">
+            {{ form_row(form.stock, {'attr': {'class':'form form-control'}}) }}
+        </div>
+    {% endif %}
+
+    <div class="mb-3">
+        {{ form_row(form.subCategories) }}
+    </div>
+
+    <div class="mb-3">
+        {{ form_row(form.image, {'attr': {'class':'form'}}) }}
+    </div>
+
+    <button  class="btn btn-outline-primary btn-block">{{ button_label|default('Save') }}</button>
+{{ form_end(form) }}

@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+            {{ parent() }}
+        <link href="{{ asset('styles/products.css') }}" type="text/css" rel="stylesheet" />
+{% endblock %}
+
+{% block title %}Products in Cart{% endblock %}
+
+{% block body %}
+<div class="container home-products my-5">
+    <h1 class="mb-4">Products in Cart</h1>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Product name</th>
+                <th>price</th>
+                <th>quantity</th>
+                <th>total price:</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in items %}
+            <tr>
+                <td>{{item.product.name}}</td>
+                <td>{{item.product.price}}</td>
+                <td>{{item.quantity}}</td>
+                <td>{{ item.quantity * item.product.price }} £ </td>
+                <td>
+                    <a href="{{ path('app_cart_product_remove', { 'id': item.product.id }) }}" class="btn btn-danger">Delete from Cart</a>
+                </td>
+            </tr>
+            {% else %}
+                {# <p>There is no products in your Cart</p> #}
+                <tr>
+                    <td colspan="5" class="text-center">There is no products in your Cart</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% if total > 0 %}
+        <br />
+        <br />
+        <h2>Total: {{ total }} $ </h2>
+        <div class="row mt-5">
+            <div class="col-2" >
+                <a data-turbo="false" href="{{ path('app_order') }}" class="btn btn-primary w-100">Valider la Commande</a>
+            </div>
+            <div class="col-2">
+                <a href="{{ path('app_cart_remove') }}" class="btn btn-outline-danger w-100">Supprimer le Panier</a>
+            </div>
+        </div>
+    {% endif %}
+</div>
+    {{ include('layouts/_footer.html.twig') }}
+{% endblock %}

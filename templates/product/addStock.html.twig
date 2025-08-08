@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter le stock{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <h1>Ajouter le stock pour : {{ product.name }} </h1>
+    {{ include('layouts/_flash_message.html.twig') }}
+
+    {{ form_start(form) }}
+    <div class="mb-3">
+        {{ form_row(form.qte,{'attr': {'class': 'form form-control mb-3 ', 'autofocus': true} }) }}
+    </div>
+
+    <input type="submit" class="btn btn-success btn-block" value="Sauvgarder" />
+{{ form_end(form) }}
+
+
+    <a href="{{ path('app_product_index') }}" class="btn btn-outline-primary mt-4">back to list</a>
+</div>
+{% endblock %}

@@ -1,0 +1,24 @@
+body {
+    /* background-color: skyblue; */
+}
+
+.product-details, .filterd-products, .home-products {
+    min-height: 60vh;
+}
+
+.login-form {
+    width: 500px;
+    /* text-align: center; */
+}
+
+.btn-block {
+    width: 100%;
+}
+
+.security-form {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    width: 100%;
+    height: 100vh;
+}

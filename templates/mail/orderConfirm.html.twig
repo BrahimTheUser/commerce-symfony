@@ -1,0 +1,78 @@
+<style>
+    .container {
+        width: 1400px;
+        padding-right: 15px;
+        padding-left: 15px;
+        margin-right: auto;
+        margin-left: auto;
+    }
+
+    .text-bg-primary {
+        {# color: #fff;
+        background-color: #007bff; #}
+    }
+
+    .p-1 {
+        padding: 0.25rem;
+    }
+
+    .mt-5 {
+        margin-top: 3rem;
+    }
+
+    .table {
+        width: 100%;
+        margin-bottom: 1rem;
+        color: #212529;
+        border-collapse: collapse;
+    }
+
+    .table-bordered {
+        border: 1px solid #dee2e6;
+    }
+
+    .table-bordered th,
+    .table-bordered td {
+        border: 1px solid #dee2e6;
+        padding: 0.75rem;
+        vertical-align: top;
+    }
+
+    .table-striped tbody tr:nth-of-type(even) {
+        background-color: rgba(0, 0, 0, 0.05);
+    }
+
+    hr {
+        border: 0;
+        border-top: 1px solid #dee2e6;
+        margin: 1rem 0;
+    }
+</style>
+
+
+<div class="container">
+        <h1>Confirmation de réception de commande</h1>
+
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+
+        <h5>Détails de la commande</h5>
+        <table class="table table-striped">
+            <tr>
+                <th>Nom du Produit</th>
+                <th>Prix Unitaire</th>
+                <th>Quantité</th>
+                <th>Prix total</th>
+            </tr>
+            {% for product in order.orderProducts %}
+                <tr>
+                    <td>{{ product.product.name }}</td>
+                    <td>{{ product.product.price }} $</td>
+                    <td>{{ product.qte }}</td>
+                    <td>{{ product.product.price * product.qte }} $</td>
+                </tr>
+            {% endfor %}
+        </table>
+                <span class="">Frais de livraison : {{ order.city.shippingCost }} </span>
+                    <hr></hr>
+                <h2 class="">Total à payer : {{ order.totalPrice }} $ </h2>
+</div>

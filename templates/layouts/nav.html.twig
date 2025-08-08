@@ -1,0 +1,93 @@
+<nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
+  <div class="container">
+    <a class="navbar-brand" href="{{ path('app_home') }}">My Shop</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarScroll">
+      <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{{ path('app_home') }}">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Link</a>
+        </li>
+
+        {% if is_granted("ROLE_ADMIN") %}
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Catégories
+          </a>
+          <ul class="dropdown-menu">
+
+          {% if categories is defined %}
+            {% for category in categories %}
+                  <li><a class="dropdown-item text-success text-bold" href="{{ path('app_categories') }}"> {{ category.name }} </a></li>
+                  {% for subCategory in category.subCategories %}
+                      <li><a class="dropdown-item" href="{{ path('app_home_product_filter', {'id':subCategory.id}) }}"> {{ subCategory.name }} </a></li>
+                  {% endfor %}
+                  <li><hr class="dropdown-divider"></li>
+            {% endfor %}
+          {% endif %}
+
+            <li><a class="dropdown-item" href="{{ path('app_categories') }}">Liste des catégories</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="{{ path('app_product_index') }}">Produits</a></li>
+
+            <li><hr class="dropdown-divider"></li>
+
+            <li><a class="dropdown-item" href="{{ path('app_user') }}">Utilisateurs</a></li>
+          </ul>
+        </li>
+        {% endif %}
+
+        {% if app.user %}
+              <li class="nav-item">
+                <a class="nav-link" href="{{ path('app_logout') }}">Logout</a>
+              </li>
+            {% else %}
+              <li class="nav-item">
+                <a class="nav-link" href="{{ path('app_register') }}">Register</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{{ path('app_login') }}">Login</a>
+              </li>
+        {% endif %}
+
+      <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Langue
+          </a>
+        <ul class="dropdown-menu">
+          <li>
+            <a href="{{ path('app_locale_change', {'langue': 'en'}) }}" class="dropdown-item flag" value="en" aria-current="page" href="{{ path('app_home') }}">English</a>
+          </li>
+          <li>
+            <a href="{{ path('app_locale_change', {'langue': 'fr'}) }}" class="dropdown-item flag" value="fr" aria-current="page" href="{{ path('app_home') }}">Français</a>
+          </li>
+        </ul>
+      </li>
+        
+      </ul>
+      
+      <form class="d-flex" role="search">
+        <input class="form-control me-2" type="search" placeholder="Search for a product..." aria-label="Search">
+        <button class="btn btn-outline-success" type="submit">Search</button>
+      </form>
+    </div>
+  </div>
+</nav>
+
+<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+<script>
+    $(document).ready(function () {
+      $('.flag').click(function () {
+        var langue = $(this).attr('value');
+        console.log(langue);
+        $.post($(this).attr('href'), { langue: langue }, function() {
+          //location.reload();
+          console.log(langue);
+        });
+      });
+    });
+</script>

@@ -1,0 +1,93 @@
+{# <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.css') }}" /> #}
+<style>
+    .container {
+        width: 90%;
+        padding-right: 15px;
+        padding-left: 15px;
+        margin-right: auto;
+        margin-left: auto;
+    }
+
+    .text-bg-primary {
+        {# color: #fff;
+        background-color: #007bff; #}
+    }
+
+    .p-1 {
+        padding: 0.25rem;
+    }
+
+    .mt-5 {
+        margin-top: 3rem;
+    }
+
+    .table {
+        width: 100%;
+        margin-bottom: 1rem;
+        color: #212529;
+        border-collapse: collapse;
+    }
+
+    .table-bordered {
+        border: 1px solid #dee2e6;
+    }
+
+    .table-bordered th,
+    .table-bordered td {
+        border: 1px solid #dee2e6;
+        padding: 0.75rem;
+        vertical-align: top;
+    }
+
+    .table-striped tbody tr:nth-of-type(even) {
+        background-color: rgba(0, 0, 0, 0.05);
+    }
+</style>
+
+
+<div class="container">
+    <h2 class="text-bg-primary p-1 mt-5">Facture N°{{ order.id }}</h2>
+        <hr></hr>
+        <span class="">Commande livrée : {{ order.createAt | date }} </span>
+        <br><br><br>
+
+    <h5>Informations du client</h5>
+        <table class="table table-bordered">
+            <tbody>
+                <tr>
+                    <th>Nom</th>
+                    <th>Prénom</th>
+                    <th>Téléphone</th>
+                    <th>Adresee</th>
+                    <th>Ville</th>
+                </tr>
+                    <tr>
+                        <td>{{ order.firstName }}</td>
+                        <td>{{ order.lastName }}</td>
+                        <td>{{ order.phone }}</td>
+                        <td>{{ order.adresse }}</td>
+                        <td>{{ order.city.name }}</td>
+                    </tr>
+            </tbody>
+        </table>
+        <h5>Corps de la commande</h5>
+        <table class="table table-striped">
+            <tr>
+                <th>Nom du Produit</th>
+                <th>Prix Unitaire</th>
+                <th>Quantité</th>
+                <th>Prix total</th>
+            </tr>
+            {% for product in order.orderProducts %}
+                <tr>
+                    <td>{{ product.product.name }}</td>
+                    <td>{{ product.product.price }} $</td>
+                    <td>{{ product.qte }}</td>
+                    <td>{{ product.product.price * product.qte }} $</td>
+                </tr>
+            {% endfor %}
+        </table>
+                <span class="">Frais de livraison : {{ order.city.shippingCost }} </span>
+                    <hr></hr>
+                <h2 class="">Total à payer : {{ order.totalPrice }} $ </h2>
+</div>

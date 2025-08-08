@@ -1,0 +1,13 @@
+{{ form_start(form) }}
+
+    <div class="mb-3">
+        {{ form_row(form.name, {'attr': {'class':'form form-control'}}) }}
+    </div>
+
+    <div class="mb-3">
+        {{ form_row(form.shippingCost, {'attr': {'class':'form form-control'}}) }}
+    </div>
+
+    <button class="btn btn-outline-primary btn-block">{{ button_label|default('Save') }}</button>
+    
+{{ form_end(form) }}
